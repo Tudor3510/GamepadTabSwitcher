@@ -12,6 +12,10 @@ struct WindowData {
     std::vector<std::string> reqProcess;
 };
 
+std::vector<std::string> ReadReqProcessFile(const std::string& filePath) {
+
+}
+
 std::string GetProcessNameFromHWND(HWND hwnd) {
     DWORD processId;
     GetWindowThreadProcessId(hwnd, &processId);
@@ -50,18 +54,18 @@ std::string GetAppdataDir() {
     PWSTR localAppDataPath;
     HRESULT result = SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &localAppDataPath);
 
-    if (SUCCEEDED(result)) {
-        std::string localAppDataPathString = ConvertWideCharToMultiByte(localAppDataPath);
-        std::cout << "Local AppData Path: " << localAppDataPathString << std::endl;
-
-        // Free the allocated memory for the path
-        CoTaskMemFree(localAppDataPath);
-    }
-    else {
+    if (!SUCCEEDED(result)) {
         std::cerr << "Failed to retrieve Local AppData path." << std::endl;
+        return "";
     }
+        
+    std::string localAppDataPathString = ConvertWideCharToMultiByte(localAppDataPath);
+    std::cout << "Local AppData Path: " << localAppDataPathString << std::endl;
 
-    return 0;
+    // Free the allocated memory for the path
+    CoTaskMemFree(localAppDataPath);
+
+    return localAppDataPathString;
 }
 
 
@@ -78,7 +82,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
     return TRUE;
 }
 
-std::vector<HWND> GetWindowHandle(const std::vector<std::string>& reqProcess) {
+std::vector<HWND> GetWindowsHandles(const std::vector<std::string>& reqProcess) {
     WindowData windowData;
     windowData.reqProcess = reqProcess;
 
