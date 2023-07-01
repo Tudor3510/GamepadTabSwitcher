@@ -10,7 +10,7 @@ const bool CHANGE_WINDOWS_WHEN_BUTTON_PRESSED = false;       //if true it will c
                                                             //if false it will change the windows when button is depressed
 
 const int NO_CONTROLLER_REFRESH_TIME = 1500;
-const int STANDARD_REFRESH_TIME = 300;
+const int STANDARD_REFRESH_TIME = 350;
 const int BUTTON_TO_HOLD_PRESSED_REFRESH_TIME = 80;
 
 const std::string LOCAL_APPDATA_PROGRAM_PATH = "\\Programs\\Gamepad Tab Switcher";
