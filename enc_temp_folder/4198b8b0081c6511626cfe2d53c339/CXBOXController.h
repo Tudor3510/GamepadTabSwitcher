@@ -20,11 +20,9 @@ private:
 	int _controllerNum;
 public:
 	CXBOXController(int playerNumber);
-	CXBOXController();
 	XINPUT_STATE GetState();
 	bool IsConnected();
 	void Vibrate(int leftVal = 0, int rightVal = 0);
-	void SetPlayerNumber(int playerNumber);
 };
 
 #endif

@@ -13,6 +13,8 @@ const int NO_CONTROLLER_REFRESH_TIME = 1500;
 const int STANDARD_REFRESH_TIME = 300;
 const int BUTTON_TO_HOLD_PRESSED_REFRESH_TIME = 80;
 
+const int MAX_NUMBER_OF_CONTROLLERS = 4;
+
 const std::string LOCAL_APPDATA_PROGRAM_PATH = "\\Programs\\Gamepad Tab Switcher";
 const std::string CONFIG_FILE_NAME = "\\config";
 
@@ -20,14 +22,22 @@ int main(int argc, char* argv[]) {
     std::string localAppdata = GetAppdataDir();
     std::vector<std::string> reqProcess = ReadReqProcessFile(localAppdata + LOCAL_APPDATA_PROGRAM_PATH + CONFIG_FILE_NAME);
 
-    CXBOXController player1(1);
+    CXBOXController player[MAX_NUMBER_OF_CONTROLLERS];
+    for (int i = 0; i < MAX_NUMBER_OF_CONTROLLERS; i++) {
+        player[i].SetPlayerNumber(i + 1);
+    }
+
     bool pl1LastButtonState = false;
     bool pl1CurrentButtonState = false;
     HWND currentWindow = NULL;
     int refreshTime = STANDARD_REFRESH_TIME;
 
     while (true) {
-        if (!IsControllerConnected(player1)) {
+        if (
+            !IsControllerConnected(player[0]) ||
+            !IsControllerConnected(player[1]) ||
+            !IsControllerButtonPress
+            ) {
             std::cout << NO_CONTROLLER_REFRESH_TIME << "\n";
             Sleep(NO_CONTROLLER_REFRESH_TIME);
             continue;

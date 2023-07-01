@@ -6,12 +6,6 @@ CXBOXController::CXBOXController(int playerNumber)
 	_controllerNum = playerNumber - 1;
 }
 
-CXBOXController::CXBOXController()
-{
-	// Set the Controller Number
-	_controllerNum = 0;
-}
-
 XINPUT_STATE CXBOXController::GetState()
 {
 	// Zeroise the state
@@ -55,10 +49,4 @@ void CXBOXController::Vibrate(int leftVal, int rightVal)
 
 	// Vibrate the controller
 	XInputSetState(_controllerNum, &Vibration);
-}
-
-void CXBOXController::SetPlayerNumber(int playerNumber)
-{
-	// Set the Controller Number
-	_controllerNum = playerNumber - 1;
 }
