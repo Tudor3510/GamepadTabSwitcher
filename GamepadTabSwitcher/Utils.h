@@ -131,5 +131,9 @@ bool IsControllerButtonPressed(CXBOXController& controller, const WORD& button) 
     return (controller.GetState().Gamepad.wButtons & button);
 }
 
+void RefreshController(CXBOXController& controller) {
+    controller.RefreshState();
+}
+
 
 #endif

@@ -38,6 +38,7 @@ int main(int argc, char* argv[]) {
     while (true) {
         isAnyControllerConnected = false;
         for (int i = 0; i < MAX_NUMBER_OF_CONTROLLERS; i++) {
+            RefreshController(player[i]);
             if (IsControllerConnected(player[i])) {
                 isAnyControllerConnected = true;
                 break;
