@@ -28,14 +28,14 @@ int main(int argc, char* argv[]) {
     if (mutexHandle == NULL)
     {
         MessageBox(NULL, L"Failed to set the app identity using mutex", L"Error", MB_OK);
-        return 0;
+        return -1;
     }
 
     // Verify if the mutex was already created
     if (errorResult != ERROR_SUCCESS)
     {
         MessageBox(NULL, L"The app is already running", L"Error", MB_OK);
-        return 0;
+        return -1;
     }
 
     std::string localAppdata = GetAppdataDir();
