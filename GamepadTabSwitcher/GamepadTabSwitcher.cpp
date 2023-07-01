@@ -4,11 +4,15 @@
 #include <Windows.h>
 #include "Utils.h"
 
-const std::string LOCAL_APPDATA_PROGRAM_PATH = "Programs\Gamepad Tab Switcher";
-const std::string CONFIG_FILE_NAME = "config";
+const std::string LOCAL_APPDATA_PROGRAM_PATH = "\\Programs\\Gamepad Tab Switcher";
+const std::string CONFIG_FILE_NAME = "\\config";
 
 int main(int argc, char* argv[]) {
-    
+    std::string localAppdata = GetAppdataDir();
+    std::vector<std::string> reqProcess = ReadReqProcessFile(localAppdata + LOCAL_APPDATA_PROGRAM_PATH + CONFIG_FILE_NAME);
+
+    for (auto it : reqProcess)
+        std::cout << it << "\n";
 
     return 0;
 }

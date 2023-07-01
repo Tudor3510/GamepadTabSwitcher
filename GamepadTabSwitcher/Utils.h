@@ -17,7 +17,7 @@ struct WindowData {
 std::vector<std::string> ReadReqProcessFile(const std::string& filePath) {
     std::vector<std::string> reqProcess;
 
-    std::ifstream fileIn(filePath);
+    std::ifstream fileIn(filePath);    
     if (!fileIn.is_open()) {
         std::cout << "Failed to open the file." << std::endl;
         return reqProcess;
@@ -64,6 +64,7 @@ std::string ConvertWideCharToMultiByte(const wchar_t* wideCharString) {
     std::string multiByteString(length, '\0');
     WideCharToMultiByte(CP_UTF8, 0, wideCharString, -1, &multiByteString[0], length, NULL, NULL);
 
+    multiByteString.pop_back();
     return multiByteString;
 }
 
