@@ -123,6 +123,31 @@ HWND GetNextWindowHandle(const std::vector<HWND>& windowsHandles, const HWND& wi
     }
 }
 
+wchar_t* ConvertMultiByteToWideChar(const std::string& str)
+{
+    // Determine the required size of the buffer
+    int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
+
+    // Allocate a buffer to hold the wide character string
+    //std::vector<wchar_t> buffer(bufferSize);
+    wchar_t* buffer = new wchar_t[bufferSize];
+
+    // Convert the string to wide characters
+    MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer, bufferSize);
+
+    // Return a pointer to the converted string
+    return buffer;
+}
+
+HANDLE CreateNamedMutex(const std::string& mutexName, int& errorResult) {
+    wchar_t* convertedMutexName = ConvertMultiByteToWideChar(mutexName);
+    HANDLE mutexHandle = CreateMutexW(NULL, TRUE, convertedMutexName);
+    errorResult = GetLastError();
+    
+    delete convertedMutexName;
+    return mutexHandle;
+}
+
 bool IsControllerConnected(CXBOXController& controller) {
     return controller.IsConnected();
 }
@@ -133,6 +158,10 @@ bool IsControllerButtonPressed(CXBOXController& controller, const WORD& button) 
 
 void RefreshController(CXBOXController& controller) {
     controller.RefreshState();
+}
+
+void SetControllerPlayerNumber(CXBOXController& controller, const int& playerNumber) {
+    controller.SetPlayerNumber(playerNumber);
 }
 
 

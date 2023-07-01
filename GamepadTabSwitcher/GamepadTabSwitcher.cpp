@@ -11,20 +11,39 @@ const bool CHANGE_WINDOWS_WHEN_BUTTON_PRESSED = false;       //if true it will c
 
 const int NO_CONTROLLER_REFRESH_TIME = 1500;
 const int STANDARD_REFRESH_TIME = 300;
-const int BUTTON_TO_HOLD_PRESSED_REFRESH_TIME = 80;
+const int BUTTON_TO_HOLD_PRESSED_REFRESH_TIME = 60;
 
 const int MAX_NUMBER_OF_CONTROLLERS = 4;
 
 const std::string LOCAL_APPDATA_PROGRAM_PATH = "\\Programs\\Gamepad Tab Switcher";
 const std::string CONFIG_FILE_NAME = "\\config";
 
+const std::string MUTEX_NAME = "GamepadTabSwitcher.345fg63t";
+
 int main(int argc, char* argv[]) {
+    int errorResult;
+    HANDLE mutexHandle = CreateNamedMutex(MUTEX_NAME, errorResult);
+
+    // Verify if we receive a valid handle to the mutex
+    if (mutexHandle == NULL)
+    {
+        MessageBox(NULL, L"Failed to set the app identity using mutex", L"Error", MB_OK);
+        return 0;
+    }
+
+    // Verify if the mutex was already created
+    if (errorResult != ERROR_SUCCESS)
+    {
+        MessageBox(NULL, L"The app is already running", L"Error", MB_OK);
+        return 0;
+    }
+
     std::string localAppdata = GetAppdataDir();
     std::vector<std::string> reqProcess = ReadReqProcessFile(localAppdata + LOCAL_APPDATA_PROGRAM_PATH + CONFIG_FILE_NAME);
 
     CXBOXController player[MAX_NUMBER_OF_CONTROLLERS];
     for (int i = 0; i < MAX_NUMBER_OF_CONTROLLERS; i++) {
-        player[i].SetPlayerNumber(i + 1);
+        SetControllerPlayerNumber(player[i], i + 1);
     }
 
     bool plLastButtonState[MAX_NUMBER_OF_CONTROLLERS] = {};
@@ -90,65 +109,6 @@ int main(int argc, char* argv[]) {
         Sleep(refreshTime);
     }
 
-
+    CloseHandle(mutexHandle);
     return 0;
 }
-
-
-
-//
-//
-//CXBOXController* Player1;
-//int main(int argc, char* argv[])
-//{
-//	Player1 = new CXBOXController(1);
-//
-//	std::cout << "Instructions:\n";
-//	std::cout << "[A] Vibrate Left Only\n";
-//	std::cout << "[B] Vibrate Right Only\n";
-//	std::cout << "[X] Vibrate Both\n";
-//	std::cout << "[Y] Vibrate Neither\n";
-//	std::cout << "[BACK] Exit\n";
-//
-//	while (true)
-//	{
-//		if (Player1->IsConnected())
-//		{
-//			if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_START)
-//			{
-//				Player1->Vibrate(65535, 0);
-//			}
-//
-//			if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_B)
-//			{
-//				Player1->Vibrate(0, 65535);
-//			}
-//
-//			if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_X)
-//			{
-//				Player1->Vibrate(65535, 65535);
-//			}
-//
-//			if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_Y)
-//			{
-//				Player1->Vibrate();
-//			}
-//
-//			if (Player1->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_BACK)
-//			{
-//				std::cout << "Back was pressed\n";
-//			}
-//		}
-//		else
-//		{
-//			std::cout << "\n\tERROR! PLAYER 1 - XBOX 360 Controller Not Found!\n";
-//			std::cout << "Press Any Key To Exit.";
-//			std::cin.get();
-//			break;
-//		}
-//	}
-//
-//	delete(Player1);
-//
-//	return(0);
-//}
