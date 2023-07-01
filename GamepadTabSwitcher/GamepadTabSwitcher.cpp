@@ -30,6 +30,7 @@ int main(int argc, char* argv[]) {
     bool plLastButtonState[MAX_NUMBER_OF_CONTROLLERS] = {};
     bool plCurrentButtonState[MAX_NUMBER_OF_CONTROLLERS] = {};
     bool isAnyControllerConnected = false;
+    bool isAnyButtonHold = false;
 
     HWND currentWindow = NULL;
     int refreshTime = STANDARD_REFRESH_TIME;
@@ -43,20 +44,23 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        if (isAnyControllerConnected) {
+        if (!isAnyControllerConnected) {
             std::cout << NO_CONTROLLER_REFRESH_TIME << "\n";
             Sleep(NO_CONTROLLER_REFRESH_TIME);
             continue;
         }
 
-        pl1LastButtonState = pl1CurrentButtonState;
-        pl1CurrentButtonState = IsControllerButtonPressed(player1, BUTTON_TO_CHANGE_WINDOWS);
-        if (IsControllerButtonPressed(player1, BUTTON_TO_HOLD)) {
-            if (refreshTime != BUTTON_TO_HOLD_PRESSED_REFRESH_TIME) {
-                refreshTime = BUTTON_TO_HOLD_PRESSED_REFRESH_TIME;
+        isAnyButtonHold = false;
+        for (int i = 0; i < MAX_NUMBER_OF_CONTROLLERS; i++) {
+            plLastButtonState[i] = plCurrentButtonState[i];
+            plCurrentButtonState[i] = IsControllerButtonPressed(player[i], BUTTON_TO_CHANGE_WINDOWS);
+            if (!IsControllerButtonPressed(player[i], BUTTON_TO_HOLD)) {
+                continue;
             }
 
-            if ( (pl1CurrentButtonState ^ !CHANGE_WINDOWS_WHEN_BUTTON_PRESSED) && (pl1LastButtonState ^ CHANGE_WINDOWS_WHEN_BUTTON_PRESSED) ) {
+            isAnyButtonHold = true;
+
+            if ((plCurrentButtonState[i] ^ !CHANGE_WINDOWS_WHEN_BUTTON_PRESSED) && (plLastButtonState[i] ^ CHANGE_WINDOWS_WHEN_BUTTON_PRESSED)) {
                 std::cout << "Acum ar trebui sa schimbam ferestrele" << "\n";
 
                 std::vector<HWND> windowsHandles = GetSortedWindowsHandles(reqProcess);
@@ -73,7 +77,11 @@ int main(int argc, char* argv[]) {
                 }
             }
         }
-        else if (refreshTime != STANDARD_REFRESH_TIME) {
+
+        if (isAnyButtonHold && refreshTime != BUTTON_TO_HOLD_PRESSED_REFRESH_TIME) {
+            refreshTime = BUTTON_TO_HOLD_PRESSED_REFRESH_TIME;
+        }
+        else if (!isAnyButtonHold && refreshTime != STANDARD_REFRESH_TIME) {
             refreshTime = STANDARD_REFRESH_TIME;
         }
           

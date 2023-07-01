@@ -4,12 +4,22 @@ CXBOXController::CXBOXController(int playerNumber)
 {
 	// Set the Controller Number
 	_controllerNum = playerNumber - 1;
+
+	// Zeroise the state
+	ZeroMemory(&_controllerState, sizeof(XINPUT_STATE));
+
+	_result = -1;
 }
 
 CXBOXController::CXBOXController()
 {
 	// Set the Controller Number
 	_controllerNum = 0;
+
+	// Zeroise the state
+	ZeroMemory(&_controllerState, sizeof(XINPUT_STATE));
+
+	_result = -1;
 }
 
 void CXBOXController::RefreshState()
