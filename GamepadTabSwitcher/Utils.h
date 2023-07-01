@@ -8,6 +8,8 @@
 #include <Psapi.h>
 #include <ShlObj.h>
 #include <string>
+#include "CXBOXController.h"
+#include <Xinput.h>
 
 struct WindowData {
     std::vector<HWND> windowHandles;
@@ -100,13 +102,21 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
     return TRUE;
 }
 
-std::vector<HWND> GetWindowsHandles(const std::vector<std::string>& reqProcess) {
+std::vector<HWND> GetSortedWindowsHandles(const std::vector<std::string>& reqProcess) {
     WindowData windowData;
     windowData.reqProcess = reqProcess;
 
     EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&windowData));
 
     return windowData.windowHandles;
+}
+
+bool IsControllerConnected(CXBOXController& controller) {
+    return controller.IsConnected();
+}
+
+bool IsControllerButtonPressed(CXBOXController& controller, const WORD& button) {
+    return (controller.GetState().Gamepad.wButtons & button);
 }
 
 

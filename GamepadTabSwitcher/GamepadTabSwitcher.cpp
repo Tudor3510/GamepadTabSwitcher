@@ -4,6 +4,11 @@
 #include <Windows.h>
 #include "Utils.h"
 
+const WORD BUTTON_TO_HOLD = XINPUT_GAMEPAD_START;
+const WORD BUTTON_TO_CHANGE_WINDOWS = XINPUT_GAMEPAD_BACK;
+const bool CHANGE_WINDOWS_WHEN_BUTTON_PRESSED = false;       //if true it will change the windows when button is pressed
+                                                            //if false it will change the windows when button is depressed
+
 const std::string LOCAL_APPDATA_PROGRAM_PATH = "\\Programs\\Gamepad Tab Switcher";
 const std::string CONFIG_FILE_NAME = "\\config";
 
@@ -13,6 +18,27 @@ int main(int argc, char* argv[]) {
 
     for (auto it : reqProcess)
         std::cout << it << "\n";
+
+    CXBOXController player1(1);
+    bool pl1LastButtonState = false;
+    bool pl1CurrentButtonState = false;
+
+    while (true) {
+        if (!IsControllerConnected(player1)) {
+            continue;
+        }
+
+        pl1LastButtonState = pl1CurrentButtonState;
+        pl1CurrentButtonState = IsControllerButtonPressed(player1, BUTTON_TO_CHANGE_WINDOWS);
+        if (IsControllerButtonPressed(player1, BUTTON_TO_HOLD)) {
+            if ( (pl1CurrentButtonState ^ !CHANGE_WINDOWS_WHEN_BUTTON_PRESSED) && (pl1LastButtonState ^ CHANGE_WINDOWS_WHEN_BUTTON_PRESSED) ) {
+                std::cout << "Acum ar trebui sa schimbam ferestrele" << "\n";
+            }
+        }
+            
+
+    }
+
 
     return 0;
 }
