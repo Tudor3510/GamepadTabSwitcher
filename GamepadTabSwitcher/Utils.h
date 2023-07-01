@@ -10,6 +10,7 @@
 #include <string>
 #include "CXBOXController.h"
 #include <Xinput.h>
+#include <algorithm>
 
 struct WindowData {
     std::vector<HWND> windowHandles;
@@ -108,6 +109,7 @@ std::vector<HWND> GetSortedWindowsHandles(const std::vector<std::string>& reqPro
 
     EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&windowData));
 
+    std::sort(windowData.windowHandles.begin(), windowData.windowHandles.end());
     return windowData.windowHandles;
 }
 
