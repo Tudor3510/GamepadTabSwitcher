@@ -4,8 +4,10 @@
 #include <vector>
 #include <windows.h>
 #include <iostream>
+#include <fstream>
 #include <Psapi.h>
 #include <ShlObj.h>
+#include <string>
 
 struct WindowData {
     std::vector<HWND> windowHandles;
@@ -13,7 +15,22 @@ struct WindowData {
 };
 
 std::vector<std::string> ReadReqProcessFile(const std::string& filePath) {
+    std::vector<std::string> reqProcess;
 
+    std::ifstream fileIn(filePath);
+    if (!fileIn.is_open()) {
+        std::cout << "Failed to open the file." << std::endl;
+        return reqProcess;
+    }
+
+    std::string line;
+    while (std::getline(fileIn, line)) {
+        reqProcess.push_back(line);
+    }
+
+    fileIn.close();  // Close the file
+
+    return reqProcess;
 }
 
 std::string GetProcessNameFromHWND(HWND hwnd) {
@@ -60,7 +77,7 @@ std::string GetAppdataDir() {
     }
         
     std::string localAppDataPathString = ConvertWideCharToMultiByte(localAppDataPath);
-    std::cout << "Local AppData Path: " << localAppDataPathString << std::endl;
+    //std::cout << "Local AppData Path: " << localAppDataPathString << std::endl;
 
     // Free the allocated memory for the path
     CoTaskMemFree(localAppDataPath);
