@@ -12,33 +12,23 @@ CXBOXController::CXBOXController()
 	_controllerNum = 0;
 }
 
-XINPUT_STATE CXBOXController::GetState()
+void CXBOXController::RefreshState()
 {
 	// Zeroise the state
 	ZeroMemory(&_controllerState, sizeof(XINPUT_STATE));
 
 	// Get the state
-	XInputGetState(_controllerNum, &_controllerState);
+	_result = XInputGetState(_controllerNum, &_controllerState);
+}
 
+XINPUT_STATE CXBOXController::GetState()
+{
 	return _controllerState;
 }
 
 bool CXBOXController::IsConnected()
 {
-	// Zeroise the state
-	ZeroMemory(&_controllerState, sizeof(XINPUT_STATE));
-
-	// Get the state
-	DWORD Result = XInputGetState(_controllerNum, &_controllerState);
-
-	if (Result == ERROR_SUCCESS)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (_result == ERROR_SUCCESS);
 }
 
 void CXBOXController::Vibrate(int leftVal, int rightVal)

@@ -27,17 +27,23 @@ int main(int argc, char* argv[]) {
         player[i].SetPlayerNumber(i + 1);
     }
 
-    bool pl1LastButtonState = false;
-    bool pl1CurrentButtonState = false;
+    bool plLastButtonState[MAX_NUMBER_OF_CONTROLLERS] = {};
+    bool plCurrentButtonState[MAX_NUMBER_OF_CONTROLLERS] = {};
+    bool isAnyControllerConnected = false;
+
     HWND currentWindow = NULL;
     int refreshTime = STANDARD_REFRESH_TIME;
 
     while (true) {
-        if (
-            !IsControllerConnected(player[0]) ||
-            !IsControllerConnected(player[1]) ||
-            !IsControllerButtonPress
-            ) {
+        isAnyControllerConnected = false;
+        for (int i = 0; i < MAX_NUMBER_OF_CONTROLLERS; i++) {
+            if (IsControllerConnected(player[i])) {
+                isAnyControllerConnected = true;
+                break;
+            }
+        }
+
+        if (isAnyControllerConnected) {
             std::cout << NO_CONTROLLER_REFRESH_TIME << "\n";
             Sleep(NO_CONTROLLER_REFRESH_TIME);
             continue;

@@ -18,9 +18,11 @@ class CXBOXController
 private:
 	XINPUT_STATE _controllerState;
 	int _controllerNum;
+	DWORD _result;
 public:
 	CXBOXController(int playerNumber);
 	CXBOXController();
+	void RefreshState();
 	XINPUT_STATE GetState();
 	bool IsConnected();
 	void Vibrate(int leftVal = 0, int rightVal = 0);
