@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="CXBOXController.cpp" />
     <ClCompile Include="GamepadTabSwitcher.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CXBOXController.h" />
