@@ -13,7 +13,7 @@
 #include <algorithm>
 
 struct WindowData {
-    std::vector<HWND> windowHandles;
+    std::vector<HWND> windowsHandles;
     std::vector<std::string> reqProcess;
 };
 
@@ -98,19 +98,29 @@ bool IsStringInVector(const std::vector<std::string>& strings, const std::string
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
     WindowData* windowData = reinterpret_cast<WindowData*>(lParam);
     if (IsWindowVisible(hwnd) && IsStringInVector(windowData->reqProcess, GetProcessNameFromHWND(hwnd))) {
-        windowData->windowHandles.push_back(hwnd);
+        windowData->windowsHandles.push_back(hwnd);
     }
     return TRUE;
 }
 
 std::vector<HWND> GetSortedWindowsHandles(const std::vector<std::string>& reqProcess) {
-    WindowData windowData;
-    windowData.reqProcess = reqProcess;
+    WindowData windowsData;
+    windowsData.reqProcess = reqProcess;
 
-    EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&windowData));
+    EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&windowsData));
 
-    std::sort(windowData.windowHandles.begin(), windowData.windowHandles.end());
-    return windowData.windowHandles;
+    std::sort(windowsData.windowsHandles.begin(), windowsData.windowsHandles.end());
+    return windowsData.windowsHandles;
+}
+
+HWND GetNextWindowHandle(const std::vector<HWND>& windowsHandles, const HWND& window) {
+    auto it = std::find(windowsHandles.begin(), windowsHandles.end(), window);
+    if (it != windowsHandles.end() && std::next(it) != windowsHandles.end()) {
+        return *(std::next(it));
+    }
+    else {
+        return NULL; // Return NULL as an example when the conditions are not met
+    }
 }
 
 bool IsControllerConnected(CXBOXController& controller) {
