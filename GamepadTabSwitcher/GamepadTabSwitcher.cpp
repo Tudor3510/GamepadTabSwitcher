@@ -2,29 +2,13 @@
 #include <iostream>
 #include <vector>
 #include <Windows.h>
+#include "Utils.h"
 
+const std::string LOCAL_APPDATA_PROGRAM_PATH = "Programs\Gamepad Tab Switcher";
+const std::string CONFIG_FILE_NAME = "config";
 
-#include <iostream>
-#include <vector>
-#include <Windows.h>
-
-BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
-    std::vector<HWND>* windows = reinterpret_cast<std::vector<HWND>*>(lParam);
-    if (IsWindowVisible(hwnd)) {
-        windows->push_back(hwnd);
-    }
-    return TRUE;
-}
-
-int main() {
-    std::vector<HWND> visibleWindows;
-    EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&visibleWindows));
-
-    for (const auto& hwnd : visibleWindows) {
-        char windowTitle[256];
-        GetWindowTextA(hwnd, windowTitle, sizeof(windowTitle));
-        std::cout << "Window Handle: " << hwnd << ", Title: " << windowTitle << std::endl;
-    }
+int main(int argc, char* argv[]) {
+    
 
     return 0;
 }
