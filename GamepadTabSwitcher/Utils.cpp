@@ -10,7 +10,7 @@ std::vector<std::string> ReadReqProcessFile(const std::string& filePath) {
 
     std::ifstream fileIn(filePath);
     if (!fileIn.is_open()) {
-        std::cout << "Failed to open the file." << std::endl;
+        std::cerr << "Failed to open the file." << std::endl;
         return reqProcess;
     }
 
@@ -69,7 +69,6 @@ std::string GetAppdataDir() {
     }
 
     std::string localAppDataPathString = ConvertWideCharToMultiByte(localAppDataPath);
-    //std::cout << "Local AppData Path: " << localAppDataPathString << std::endl;
 
     // Free the allocated memory for the path
     CoTaskMemFree(localAppDataPath);
