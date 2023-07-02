@@ -86,8 +86,6 @@ int main(int argc, char* argv[]) {
             isAnyButtonHold = true;
 
             if ((plCurrentButtonState[i] ^ !CHANGE_WINDOWS_WHEN_BUTTON_PRESSED) && (plLastButtonState[i] ^ CHANGE_WINDOWS_WHEN_BUTTON_PRESSED)) {
-                std::cout << "Acum ar trebui sa schimbam ferestrele" << "\n";
-
                 std::vector<HWND> windowsHandles = GetSortedWindowsHandles(reqProcess);
                 currentWindow = GetNextWindowHandle(windowsHandles, currentWindow);
                 if (currentWindow == NULL) {
