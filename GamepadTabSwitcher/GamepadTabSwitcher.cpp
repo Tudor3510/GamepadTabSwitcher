@@ -92,6 +92,7 @@ int app() {
                     currentWindow = windowsHandles[0];
                 }
 
+                ShowWindow(GetForegroundWindow(), SW_MINIMIZE);
                 if (IsIconic(currentWindow)) {
                     ShowWindow(currentWindow, SW_NORMAL);
                 }
