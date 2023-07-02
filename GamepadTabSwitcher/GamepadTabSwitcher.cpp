@@ -4,6 +4,12 @@
 #include <Windows.h>
 #include "Utils.h"
 
+#ifdef _DEBUG
+    const bool DEBUG_MODE = true;
+#else
+    const bool DEBUG_MODE = false;
+#endif
+
 const WORD BUTTON_TO_HOLD = XINPUT_GAMEPAD_START;
 const WORD BUTTON_TO_CHANGE_WINDOWS = XINPUT_GAMEPAD_BACK;
 const bool CHANGE_WINDOWS_WHEN_BUTTON_PRESSED = false;       //if true it will change the windows when button is pressed
@@ -65,7 +71,6 @@ int main(int argc, char* argv[]) {
         }
 
         if (!isAnyControllerConnected) {
-            std::cout << NO_CONTROLLER_REFRESH_TIME << "\n";
             Sleep(NO_CONTROLLER_REFRESH_TIME);
             continue;
         }
@@ -104,8 +109,7 @@ int main(int argc, char* argv[]) {
         else if (!isAnyButtonHold && refreshTime != STANDARD_REFRESH_TIME) {
             refreshTime = STANDARD_REFRESH_TIME;
         }
-          
-        std::cout << refreshTime << "\n";
+        
         Sleep(refreshTime);
     }
 
