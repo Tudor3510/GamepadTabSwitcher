@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product		Id="{14470395-B42D-4EDE-AF68-4F8F9115A081}"
+	<Product		Id="{AC87EF71-2EDA-4C0C-88D9-DCC1B1780F72}"
 					Name="!(loc.ProductName)"
 					Language="1033"
 					Version="0.0.1.0"
 					Manufacturer="!(loc.Company)"
-					UpgradeCode="{DA440121-9FAC-48E3-8CE3-C835B2938B2D}">
+					UpgradeCode="{82538965-00CA-4151-BB87-8DEBD6A557A1}">
 
 		<!-- Language 1033 is English-->
 		<!-- The upgrade code should remain the same between the upgrades-->
@@ -28,7 +28,7 @@
 			/>
 
 		<!-- Define main app icon -->
-		<Icon Id="icon.ico" SourceFile="$(var.WindowsTerminalShortcut.ProjectDir)icon.ico" />
+		<Icon Id="icon.ico" SourceFile="$(var.GamepadTabSwitcher.ProjectDir)icon.ico" />
 
 		<!-- Use the icon.ico for this installer (shows up in Add/Remove programs)-->
 		<Property Id="ARPPRODUCTICON">icon.ico</Property>

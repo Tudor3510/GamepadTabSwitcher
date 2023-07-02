@@ -11,8 +11,8 @@
 			<!-- </Component> -->
 
 			<!-- The component for the executable -->
-			<Component Id="WindowsTerminalShortcut" Guid="{91434A24-B77F-4831-BE48-6E845D496E43}">
-				<File Id="WindowsTerminalShortcutExecutable" Name="Windows Terminal Shortcut.exe" Source="$(var.WindowsTerminalShortcut.TargetDir)Windows Terminal Shortcut.exe"/>
+			<Component Id="GamepadTabSwitcher" Guid="{91434A24-B77F-4831-BE48-6E845D496E43}">
+				<File Id="GamepadTabSwitcherExecutable" Name="Gamepad Tab Switcher.exe" Source="$(var.GamepadTabSwitcher.TargetDir)GamepadTabSwitcher.exe"/>
 
 				<RegistryValue Id="ApplicationKey" Root="HKCU" Key="Software\!(loc.ProductName)" Name="Application" Value="1" Type="integer" KeyPath="yes" />
 
@@ -21,13 +21,13 @@
 
 
 			<!-- The component that contains the registry for the startup -->
-			<Component Id="WindowsTerminalShortcutRegistryStartup" Guid="{A13CD28A-8175-4466-98C7-4BBE070D1DA0}">
+			<Component Id="GamepadTabSwitcherRegistryStartup" Guid="{A13CD28A-8175-4466-98C7-4BBE070D1DA0}">
 				<RegistryValue
 					Id="RegStartup"
 					Root="HKCU"
 					Key="Software\Microsoft\Windows\CurrentVersion\Run"
-					Name="WindowsTerminalShortcut"
-					Value="&quot;[INSTALLFOLDER]Windows Terminal Shortcut.exe&quot;"
+					Name="GamepadTabSwitcher"
+					Value="&quot;[INSTALLFOLDER]Gamepad Tab Switcher.exe&quot;"
 					Type="string"
 					KeyPath="yes"
 					/>
@@ -43,12 +43,12 @@
 
 				<Shortcut Id="MainAppShortcut"
                   Name="!(loc.ProductName)"
-                  Target="[INSTALLFOLDER]Windows Terminal Shortcut.exe"
+                  Target="[INSTALLFOLDER]Gamepad Tab Switcher.exe"
                   Directory="InstallProgramMenuFolder"
                   WorkingDirectory="INSTALLFOLDER"
                   Icon="icon.ico">
 
-					<ShortcutProperty Key="System.AppUserModel.ID" Value="Tudor3510.WindowsTerminalShortcut.385bds23"/>
+					<ShortcutProperty Key="System.AppUserModel.ID" Value="Tudor3510.GamepadTabSwitcher.345fg63t"/>
 
 				</Shortcut>
 
@@ -69,7 +69,7 @@
 		<CustomAction
 			Id="LaunchAppAfterInstallation"
 			Execute="immediate"
-			FileKey="WindowsTerminalShortcutExecutable"
+			FileKey="GamepadTabSwitcherExecutable"
 			ExeCommand=""
 			Return="asyncNoWait"
 		/>
