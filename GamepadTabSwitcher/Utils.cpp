@@ -4,6 +4,7 @@
 #include <Psapi.h>
 #include <ShlObj.h>
 #include <algorithm>
+#include <dwmapi.h>
 
 std::vector<std::string> ReadReqProcessFile(const std::string& filePath) {
     std::vector<std::string> reqProcess;
@@ -81,9 +82,31 @@ bool IsStringInVector(const std::vector<std::string>& strings, const std::string
     return (it != strings.end());
 }
 
+bool IsAltTabWindow(HWND hWnd)
+{
+    const unsigned int WINDOWS_EX_TOOLWINDOW = 0x00000080;
+    const unsigned int DWMWA_CLOAKED = 14;
+
+    // It must be a visible Window
+    if (!IsWindowVisible(hWnd))
+        return false;
+
+    // It must not be a Tool bar window
+    WINDOWINFO winInfo;
+    GetWindowInfo(hWnd, &winInfo);
+    if ((winInfo.dwExStyle & WINDOWS_EX_TOOLWINDOW) != 0)
+        return false;
+
+    // It must not be a cloaked window
+    unsigned int CloakedVal;
+    DwmGetWindowAttribute(hWnd, DWMWA_CLOAKED, &CloakedVal, sizeof(CloakedVal));
+    return CloakedVal == 0;
+}
+
+
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
     WindowData* windowData = reinterpret_cast<WindowData*>(lParam);
-    if (IsWindowVisible(hwnd) && IsStringInVector(windowData->reqProcess, GetProcessNameFromHWND(hwnd))) {
+    if (IsAltTabWindow(hwnd) && IsStringInVector(windowData->reqProcess, GetProcessNameFromHWND(hwnd))) {
         windowData->windowsHandles.push_back(hwnd);
     }
     return TRUE;

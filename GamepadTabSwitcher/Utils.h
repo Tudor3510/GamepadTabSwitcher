@@ -4,6 +4,7 @@
 #include <vector>
 #include <windows.h>
 #include <string>
+#include <dwmapi.h>
 #include "CXBOXController.h"
 
 struct WindowData {
@@ -16,6 +17,7 @@ std::string GetProcessNameFromHWND(HWND hwnd);
 std::string ConvertWideCharToMultiByte(const wchar_t* wideCharString);
 std::string GetAppdataDir();
 bool IsStringInVector(const std::vector<std::string>& strings, const std::string& target);
+bool IsAltTabWindow(HWND hWnd);
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam);
 std::vector<HWND> GetSortedWindowsHandles(const std::vector<std::string>& reqProcess);
 HWND GetNextWindowHandle(const std::vector<HWND>& windowsHandles, const HWND& window);
