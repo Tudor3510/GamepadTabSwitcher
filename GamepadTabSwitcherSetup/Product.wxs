@@ -1,30 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="GamepadTabSwitcherSetup" Language="1033" Version="1.0.0.0" Manufacturer="" UpgradeCode="5e3017c4-e3fe-4668-b9a8-e8e269d381ae">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+	<Product		Id="{14470395-B42D-4EDE-AF68-4F8F9115A081}"
+					Name="!(loc.ProductName)"
+					Language="1033"
+					Version="0.0.1.0"
+					Manufacturer="!(loc.Company)"
+					UpgradeCode="{DA440121-9FAC-48E3-8CE3-C835B2938B2D}">
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<MediaTemplate />
+		<!-- Language 1033 is English-->
+		<!-- The upgrade code should remain the same between the upgrades-->
 
-		<Feature Id="ProductFeature" Title="GamepadTabSwitcherSetup" Level="1">
+
+		<!-- Some installer features and settings. Also some product description -->
+		<Package	InstallerVersion="500"
+					Compressed="yes"
+					InstallScope="perUser"
+					Platform="$(var.Platform)"
+					Manufacturer="!(loc.Company)"
+					Description="!(loc.Description)"/>
+
+		<!-- The downgrade message(when you try to install an older version over a newer one) -->
+		<MajorUpgrade DowngradeErrorMessage="A newer version of !(loc.ProductName) is already installed." />
+
+		<!-- Embed the Windows Cabinet archive -->
+		<MediaTemplate
+					EmbedCab="yes"
+			/>
+
+		<!-- Define main app icon -->
+		<Icon Id="icon.ico" SourceFile="$(var.WindowsTerminalShortcut.ProjectDir)icon.ico" />
+
+		<!-- Use the icon.ico for this installer (shows up in Add/Remove programs)-->
+		<Property Id="ARPPRODUCTICON">icon.ico</Property>
+
+
+		<!-- Create a basic UI for the installer -->
+		<UIRef Id="WixUI_Minimal"/>
+
+		<!-- The license that will appear when you install the file -->
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)Assets\License.rtf"/>
+
+
+		<!-- The features that installs with the product -->
+		<Feature	Id="ProductFeature"
+					Title="!(loc.ProductName)"
+					Level="1">
+
+			<!-- The product components group. Contains the executable, the registry KeyPath for the executable
+			     the registry for the startup and the option to remove the folder on uninstall -->
 			<ComponentGroupRef Id="ProductComponents" />
+
+			<!-- The shortcut components group. Contains the start menu shortcut(and folder), the registry KeyPath for the shortcut
+				 and the option to remove the start menu folder on uninstall -->
+			<ComponentGroupRef Id="AppShortcutComponents"/>
+
 		</Feature>
+
+
+
+		<!-- We trigger the LaunchAppAfterInstallation custom action when the installation is finished.
+			 !! Not when we click finish, but when all the files are copied.
+			 As our app is a background app, we will not know that our app was launched
+			 Basically, we launch our background app after it is copied to its directory -->
+		<InstallExecuteSequence>
+			<Custom Action="LaunchAppAfterInstallation" After="InstallFinalize"/>
+		</InstallExecuteSequence>
+
 	</Product>
 
-	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="GamepadTabSwitcherSetup" />
-			</Directory>
-		</Directory>
-	</Fragment>
-
-	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-			<!-- <Component Id="ProductComponent"> -->
-				<!-- TODO: Insert files, registry keys, and other resources here. -->
-			<!-- </Component> -->
-		</ComponentGroup>
-	</Fragment>
 </Wix>

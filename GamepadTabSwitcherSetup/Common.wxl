@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+
+	<!-- Some values that are used in more than one place -->
+	<String Id="ProductName">Gamepad Tab Switcher</String>
+	<String Id="Company">Tudor3510</String>
+	<String Id="Description">A simple gamepad shortcut for switching windows</String>
+
+</WixLocalization>
