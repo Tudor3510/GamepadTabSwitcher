@@ -26,7 +26,7 @@ const std::string CONFIG_FILE_NAME = "\\config";
 
 const std::string MUTEX_NAME = "GamepadTabSwitcher.345fg63t";
 
-int main(int argc, char* argv[]) {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
     int errorResult;
     HANDLE mutexHandle = CreateNamedMutex(MUTEX_NAME, errorResult);
 
