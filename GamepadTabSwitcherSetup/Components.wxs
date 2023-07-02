@@ -11,7 +11,7 @@
 			<!-- </Component> -->
 
 			<!-- The component for the executable -->
-			<Component Id="WindowsTerminalShortcut" Guid="{C03AD8E9-9DC5-45FE-B03C-EFC2066FA4B8}">
+			<Component Id="WindowsTerminalShortcut" Guid="{91434A24-B77F-4831-BE48-6E845D496E43}">
 				<File Id="WindowsTerminalShortcutExecutable" Name="Windows Terminal Shortcut.exe" Source="$(var.WindowsTerminalShortcut.TargetDir)Windows Terminal Shortcut.exe"/>
 
 				<RegistryValue Id="ApplicationKey" Root="HKCU" Key="Software\!(loc.ProductName)" Name="Application" Value="1" Type="integer" KeyPath="yes" />
@@ -21,7 +21,7 @@
 
 
 			<!-- The component that contains the registry for the startup -->
-			<Component Id="WindowsTerminalShortcutRegistryStartup" Guid="{B394F02F-50EB-44EB-BDDE-70C39250B24C}">
+			<Component Id="WindowsTerminalShortcutRegistryStartup" Guid="{A13CD28A-8175-4466-98C7-4BBE070D1DA0}">
 				<RegistryValue
 					Id="RegStartup"
 					Root="HKCU"
@@ -39,7 +39,7 @@
 
 		<!-- Shortcut Components Group -->
 		<ComponentGroup Id="AppShortcutComponents" Directory="ProgramMenuFolder">
-			<Component Id="AppShortcutComponent" Guid="{7DA18369-1CC2-43FC-9104-3B827D21AAEA}">
+			<Component Id="AppShortcutComponent" Guid="{04F72883-86A6-4511-A2F8-472265611EE2}">
 
 				<Shortcut Id="MainAppShortcut"
                   Name="!(loc.ProductName)"
