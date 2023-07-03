@@ -27,5 +27,8 @@ bool IsControllerConnected(CXBOXController& controller);
 bool IsControllerButtonPressed(CXBOXController& controller, const WORD& button);
 void RefreshController(CXBOXController& controller);
 void SetControllerPlayerNumber(CXBOXController& controller, const int& playerNumber);
+std::vector<std::string> GetSortedExistentWinByTitle(std::vector<std::string>& reqTitles);
+std::string GetNextWinByTitle(std::vector<std::string>& reqTitles, std::string& title);
+bool ActivateWindowByTitle(std::string& title);
 
 #endif

@@ -57,7 +57,7 @@ int app() {
     bool isAnyControllerConnected = false;
     bool isAnyButtonHold = false;
 
-    HWND requiredWindow = NULL;
+    std::string requiredWindow = "";
     int refreshTime = STANDARD_REFRESH_TIME;
 
     while (true) {
@@ -85,22 +85,17 @@ int app() {
             isAnyButtonHold = true;
 
             if ((plCurrentButtonState[i] ^ !CHANGE_WINDOWS_WHEN_BUTTON_PRESSED) && (plLastButtonState[i] ^ CHANGE_WINDOWS_WHEN_BUTTON_PRESSED)) {
-                std::vector<HWND> windowsHandles = GetSortedWindowsHandles(reqTitles);
-                requiredWindow = GetNextWindowHandle(windowsHandles, requiredWindow);
-                if (requiredWindow == NULL) {
-                    requiredWindow = windowsHandles[0];
+                std::vector<std::string> existentWin = GetSortedExistentWinByTitle(reqTitles);
+                if (existentWin.empty()) {
+                    continue;
                 }
 
-                HWND foregroundWindow = GetForegroundWindow();
-                if (foregroundWindow != requiredWindow) {
-                    std::cout << "Bringing another window to front\n";
-                    ShowWindow(GetForegroundWindow(), SW_MINIMIZE);
-                    ShowWindow(requiredWindow, SW_NORMAL);
+                requiredWindow = GetNextWinByTitle(existentWin, requiredWindow);
+                if (requiredWindow.empty()) {
+                    requiredWindow = existentWin[0];
                 }
-                
-                SetForegroundWindow(requiredWindow);
 
-                std::cout << "\n\n";
+                ActivateWindowByTitle(requiredWindow);
             }
         }
 
@@ -111,6 +106,7 @@ int app() {
             refreshTime = STANDARD_REFRESH_TIME;
         }
         
+        std::cout << refreshTime << "\n";
         Sleep(refreshTime);
     }
 

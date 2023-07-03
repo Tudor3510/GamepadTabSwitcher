@@ -174,7 +174,7 @@ void SetControllerPlayerNumber(CXBOXController& controller, const int& playerNum
     controller.SetPlayerNumber(playerNumber);
 }
 
-std::vector<std::string> GetSortedExistentWinByTitle(std::vector<std::string> reqTitles) {
+std::vector<std::string> GetSortedExistentWinByTitle(std::vector<std::string>& reqTitles) {
     std::vector <std::string> existentWin;
 
     for (std::string title : reqTitles) {
@@ -189,12 +189,21 @@ std::vector<std::string> GetSortedExistentWinByTitle(std::vector<std::string> re
     return existentWin;
 }
 
-std::string GetNextWinByTitle(std::vector<std::string> reqTitles, std::string title) {
+std::string GetNextWinByTitle(std::vector<std::string>& reqTitles, std::string& title) {
     auto it = std::find(reqTitles.begin(), reqTitles.end(), title);
     if (it != reqTitles.end() && std::next(it) != reqTitles.end()) {
-        return *(std::next(it));
+        std::string nextTitle(*(std::next(it)));
+        return nextTitle;
     }
     else {
-        return NULL; // Return NULL as an example when the conditions are not met
+        return ""; // Return NULL as an example when the conditions are not met
     }
+}
+
+bool ActivateWindowByTitle(std::string& title) {
+    wchar_t* convTitle = ConvertMultiByteToWideChar(title);
+    int actResult = AU3_WinActivate(convTitle, L"");
+    delete convTitle;
+
+    return actResult;
 }
