@@ -54,10 +54,9 @@ std::string ConvertWideCharToMultiByte(const wchar_t* wideCharString) {
         return "";
     }
 
-    std::string multiByteString(length, '\0');
-    WideCharToMultiByte(CP_UTF8, 0, wideCharString, -1, &multiByteString[0], length, NULL, NULL);
+    std::string multiByteString(length - 1, '\0');
+    WideCharToMultiByte(CP_UTF8, 0, wideCharString, length - 1, &multiByteString[0], length - 1, NULL, NULL);
 
-    multiByteString.pop_back();
     return multiByteString;
 }
 
@@ -136,10 +135,9 @@ HWND GetNextWindowHandle(const std::vector<HWND>& windowsHandles, const HWND& wi
 wchar_t* ConvertMultiByteToWideChar(const std::string& str)
 {
     // Determine the required size of the buffer
-    int bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
+    int bufferSize = str.length() + 1;
 
     // Allocate a buffer to hold the wide character string
-    //std::vector<wchar_t> buffer(bufferSize);
     wchar_t* buffer = new wchar_t[bufferSize];
 
     // Convert the string to wide characters
@@ -202,8 +200,8 @@ std::string GetNextWinByTitle(std::vector<std::string>& reqTitles, std::string& 
 
 bool ActivateWindowByTitle(std::string& title) {
     wchar_t* convTitle = ConvertMultiByteToWideChar(title);
-    int actResult = AU3_WinActivate(convTitle, L"");
+    int result = AU3_WinActivate(convTitle, L"");
     delete convTitle;
 
-    return actResult;
+    return result;
 }
