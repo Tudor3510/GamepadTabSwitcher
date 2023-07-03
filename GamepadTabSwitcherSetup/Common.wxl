@@ -5,5 +5,6 @@
 	<String Id="ProductName">Gamepad Tab Switcher</String>
 	<String Id="Company">Tudor3510</String>
 	<String Id="Description">A simple gamepad shortcut for switching windows</String>
+	<String Id="DLLFileName">AutoItX3_x64.dll</String>
 
 </WixLocalization>

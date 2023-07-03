@@ -14,7 +14,7 @@
 			<Component Id="GamepadTabSwitcher" Guid="{91434A24-B77F-4831-BE48-6E845D496E43}">
 				<File Id="GamepadTabSwitcherExecutable" Name="Gamepad Tab Switcher.exe" Source="$(var.GamepadTabSwitcher.TargetDir)GamepadTabSwitcher.exe"/>
 				<File Id="ConfigFile" Name="config" Source="$(var.GamepadTabSwitcher.ProjectDir)config"/>
-				<File Id="AutoItX3Lib" Name="AutoItX3_x64.dll" Source="$(var.GamepadTabSwitcher.TargetDir)AutoItX3_x64.dll"/>
+				<File Id="AutoItX3Lib" Name="!(loc.DLLFileName)" Source="$(var.GamepadTabSwitcher.TargetDir)!(loc.DLLFileName)"/>
 
 				<RegistryValue Id="ApplicationKey" Root="HKCU" Key="Software\!(loc.ProductName)" Name="Application" Value="1" Type="integer" KeyPath="yes" />
 
