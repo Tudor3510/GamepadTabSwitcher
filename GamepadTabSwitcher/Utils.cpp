@@ -5,8 +5,9 @@
 #include <ShlObj.h>
 #include <algorithm>
 #include <dwmapi.h>
+#include <AutoItX3_DLL.h>
 
-std::vector<std::string> ReadReqProcessFile(const std::string& filePath) {
+std::vector<std::string> ReadReqTitleFile(const std::string& filePath) {
     std::vector<std::string> reqProcess;
 
     std::ifstream fileIn(filePath);
@@ -171,4 +172,29 @@ void RefreshController(CXBOXController& controller) {
 
 void SetControllerPlayerNumber(CXBOXController& controller, const int& playerNumber) {
     controller.SetPlayerNumber(playerNumber);
+}
+
+std::vector<std::string> GetSortedExistentWinByTitle(std::vector<std::string> reqTitles) {
+    std::vector <std::string> existentWin;
+
+    for (std::string title : reqTitles) {
+        wchar_t* convTitle = ConvertMultiByteToWideChar(title);
+        if (AU3_WinExists(convTitle, L"")) {
+            existentWin.push_back(title);
+        }
+        delete convTitle;
+    }
+    std::sort(existentWin.begin(), existentWin.end());
+
+    return existentWin;
+}
+
+std::string GetNextWinByTitle(std::vector<std::string> reqTitles, std::string title) {
+    auto it = std::find(reqTitles.begin(), reqTitles.end(), title);
+    if (it != reqTitles.end() && std::next(it) != reqTitles.end()) {
+        return *(std::next(it));
+    }
+    else {
+        return NULL; // Return NULL as an example when the conditions are not met
+    }
 }

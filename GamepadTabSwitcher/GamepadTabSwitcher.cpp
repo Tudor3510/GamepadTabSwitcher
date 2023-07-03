@@ -45,7 +45,7 @@ int app() {
     }
 
     std::string localAppdata = GetAppdataDir();
-    std::vector<std::string> reqProcess = ReadReqProcessFile(localAppdata + LOCAL_APPDATA_PROGRAM_PATH + CONFIG_FILE_NAME);
+    std::vector<std::string> reqTitles = ReadReqTitleFile(localAppdata + LOCAL_APPDATA_PROGRAM_PATH + CONFIG_FILE_NAME);
 
     CXBOXController player[MAX_NUMBER_OF_CONTROLLERS];
     for (int i = 0; i < MAX_NUMBER_OF_CONTROLLERS; i++) {
@@ -66,7 +66,6 @@ int app() {
             RefreshController(player[i]);
             if (IsControllerConnected(player[i])) {
                 isAnyControllerConnected = true;
-                break;
             }
         }
 
@@ -86,14 +85,10 @@ int app() {
             isAnyButtonHold = true;
 
             if ((plCurrentButtonState[i] ^ !CHANGE_WINDOWS_WHEN_BUTTON_PRESSED) && (plLastButtonState[i] ^ CHANGE_WINDOWS_WHEN_BUTTON_PRESSED)) {
-                std::vector<HWND> windowsHandles = GetSortedWindowsHandles(reqProcess);
+                std::vector<HWND> windowsHandles = GetSortedWindowsHandles(reqTitles);
                 requiredWindow = GetNextWindowHandle(windowsHandles, requiredWindow);
                 if (requiredWindow == NULL) {
                     requiredWindow = windowsHandles[0];
-                }
-                std::cout << windowsHandles.size() << "\n";
-                for (HWND hwnd : windowsHandles) {
-                    std::cout << hwnd << "      " << GetProcessNameFromHWND(hwnd) << "\n";
                 }
 
                 HWND foregroundWindow = GetForegroundWindow();

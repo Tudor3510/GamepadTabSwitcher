@@ -12,7 +12,7 @@ struct WindowData {
     std::vector<std::string> reqProcess;
 };
 
-std::vector<std::string> ReadReqProcessFile(const std::string& filePath);
+std::vector<std::string> ReadReqTitleFile(const std::string& filePath);
 std::string GetProcessNameFromHWND(HWND hwnd);
 std::string ConvertWideCharToMultiByte(const wchar_t* wideCharString);
 std::string GetAppdataDir();
