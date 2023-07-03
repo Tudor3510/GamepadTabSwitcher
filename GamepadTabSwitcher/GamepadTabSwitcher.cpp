@@ -99,7 +99,7 @@ int app() {
                 HWND foregroundWindow = GetForegroundWindow();
                 if (foregroundWindow != requiredWindow) {
                     std::cout << "Bringing another window to front\n";
-                   // ShowWindow(GetForegroundWindow(), SW_MINIMIZE);
+                    ShowWindow(GetForegroundWindow(), SW_MINIMIZE);
                     ShowWindow(requiredWindow, SW_NORMAL);
                 }
                 
