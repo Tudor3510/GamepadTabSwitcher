@@ -57,7 +57,7 @@ int app() {
     bool isAnyControllerConnected = false;
     bool isAnyButtonHold = false;
 
-    std::string requiredWindow = "";
+    std::string requiredWin = "";
     int refreshTime = STANDARD_REFRESH_TIME;
 
     while (true) {
@@ -90,12 +90,12 @@ int app() {
                     continue;
                 }
 
-                requiredWindow = GetNextWinByTitle(existentWin, requiredWindow);
-                if (requiredWindow.empty()) {
-                    requiredWindow = existentWin[0];
+                requiredWin = GetNextWinByTitle(existentWin, requiredWin);
+                if (requiredWin.empty()) {
+                    requiredWin = existentWin[0];
                 }
 
-                ActivateWindowByTitle(requiredWindow);
+                ActivateWindowByTitle(requiredWin);
             }
         }
 
