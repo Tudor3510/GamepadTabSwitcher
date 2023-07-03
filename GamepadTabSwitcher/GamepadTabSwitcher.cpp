@@ -106,7 +106,6 @@ int app() {
             refreshTime = STANDARD_REFRESH_TIME;
         }
         
-        std::cout << refreshTime << "\n";
         Sleep(refreshTime);
     }
 
