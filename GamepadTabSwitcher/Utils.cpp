@@ -180,7 +180,7 @@ std::vector<std::string> GetSortedExistentWinByTitle(std::vector<std::string>& r
         if (AU3_WinExists(convTitle, L"")) {
             existentWin.push_back(title);
         }
-        delete convTitle;
+        delete[] convTitle;
     }
     std::sort(existentWin.begin(), existentWin.end());
 
@@ -201,7 +201,7 @@ std::string GetNextWinByTitle(std::vector<std::string>& reqTitles, std::string& 
 bool ActivateWindowByTitle(std::string& title) {
     wchar_t* convTitle = ConvertMultiByteToWideChar(title);
     int result = AU3_WinActivate(convTitle, L"");
-    delete convTitle;
+    delete[] convTitle;
 
     return result;
 }
