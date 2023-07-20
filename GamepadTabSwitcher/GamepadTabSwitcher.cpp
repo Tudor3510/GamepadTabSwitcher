@@ -26,13 +26,38 @@ const std::string CONFIG_FILE_NAME = "\\config";
 
 const std::string MUTEX_NAME = "GamepadTabSwitcher.345fg63t";
 
-int app() {
+const std::string SHOULD_FINISH = "--finish";
+const std::string NO_MESSAGE_BOX = "--no-error-box";
+
+const int MAXIMUM_CONTROLLER_CHECKS = 7;
+
+
+int app(int argc, char** argv) {
+    bool should_finish = false;
+    bool no_message_box = false;
+
+    for (int i = 1; i < argc; i++) {
+        if (std::string(argv[i]) == SHOULD_FINISH) {
+            should_finish = true;
+        }
+
+        if (std::string(argv[i]) == NO_MESSAGE_BOX) {
+            no_message_box = true;
+        }
+    }
+
     int errorResult;
     HANDLE mutexHandle = CreateNamedMutex(MUTEX_NAME, errorResult);
 
     // Verify if we receive a valid handle to the mutex
     if (mutexHandle == NULL)
     {
+        if (no_message_box)
+        {
+            std::cerr << "Failed to set the app identity using mutex" << "\n";
+            return -1;
+        }
+
         MessageBox(NULL, L"Failed to set the app identity using mutex", L"Error", MB_OK);
         return -1;
     }
@@ -40,6 +65,12 @@ int app() {
     // Verify if the mutex was already created
     if (errorResult != ERROR_SUCCESS)
     {
+        if (no_message_box)
+        {
+            std::cerr << "The app is already running" << "\n";
+            return -1;
+        }
+
         MessageBox(NULL, L"The app is already running", L"Error", MB_OK);
         return -1;
     }
@@ -60,7 +91,9 @@ int app() {
     std::string requiredWin = "";
     int refreshTime = STANDARD_REFRESH_TIME;
 
-    while (true) {
+    int noControllerChecks = 0;
+
+    while (noControllerChecks <= MAXIMUM_CONTROLLER_CHECKS) {
         isAnyControllerConnected = false;
         for (int i = 0; i < MAX_NUMBER_OF_CONTROLLERS; i++) {
             RefreshController(player[i]);
@@ -70,8 +103,16 @@ int app() {
         }
 
         if (!isAnyControllerConnected) {
+            if (should_finish) {
+                noControllerChecks += 1;
+            }
+
             Sleep(NO_CONTROLLER_REFRESH_TIME);
             continue;
+        }
+
+        if (noControllerChecks != 0) {
+            noControllerChecks = 0;
         }
 
         isAnyButtonHold = false;
@@ -116,13 +157,13 @@ int app() {
 #ifdef _DEBUG
 
 int main(int argc, char** argv) {
-    return app();
+    return app(argc, argv);
 }
 
 #else
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-    return app();
+    return app(__argc, __argv);
 }
 
 #endif

@@ -3,7 +3,7 @@
 	<Product		Id="{AC87EF71-2EDA-4C0C-88D9-DCC1B1780F72}"
 					Name="!(loc.ProductName)"
 					Language="1033"
-					Version="0.0.1.0"
+					Version="0.0.2.0"
 					Manufacturer="!(loc.Company)"
 					UpgradeCode="{82538965-00CA-4151-BB87-8DEBD6A557A1}">
 
